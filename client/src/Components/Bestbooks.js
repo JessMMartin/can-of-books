@@ -7,7 +7,7 @@ const BestBooks = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get('/books');
+        const response = await axios.get('http://localhost:8090/books');
         setBooks(response.data);
       } catch (error) {
         console.error('Error fetching books:', error);
