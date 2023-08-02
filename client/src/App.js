@@ -1,9 +1,9 @@
 // App.js (or index.js)
 
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import BestBooks from './components/BestBooks';
-import About from './components/About';
+import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import BestBooks from './Components/Bestbooks';
+import About from './Components/About';
 
 const App = () => {
   return (
@@ -19,14 +19,10 @@ const App = () => {
         </ul>
       </nav>
 
-      <Switch>
-        <Route exact path="/">
-          <BestBooks />
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route exact path="/" element={<BestBooks/>}></Route>
+        <Route path="/about" element={<About />}></Route>
+      </Routes>
     </Router>
   );
 };

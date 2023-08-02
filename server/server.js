@@ -10,6 +10,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+console.log(process.env.PORT)
 // Mongoose setup (connecting to MongoDB)
 mongoose
   .connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
