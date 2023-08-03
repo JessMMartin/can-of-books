@@ -23,15 +23,14 @@ const App = () => {
             <Link to="/about">About</Link>
           </li>
           <li>
-            <AddBookButton handleAddBookClick={handleAddBookClick} />
-          </li>
+          <Link to="/create">Add Book</Link>          </li>
         </ul>
       </nav>
 
       <Routes>
         <Route exact path="/" element={<BestBooks />} />
         <Route path="/about" element={<About />} />
-        {showForm && <Route path="/create" element={<CreateBookForm showForm={showForm} setShowForm={setShowForm} />} />}
+        <Route path="/create" element={<CreateBookForm showForm={showForm} setShowForm={setShowForm} />} />
       </Routes>
     </Router>
   );

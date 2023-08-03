@@ -26,6 +26,8 @@ const BestBooks = () => {
             <li key={book._id}>
               <h2>{book.title}</h2>
               <p>Author: {book.author}</p>
+              <p>{book.description}</p>
+              <p>{book.status}</p>
             </li>
           ))}
         </ul>
