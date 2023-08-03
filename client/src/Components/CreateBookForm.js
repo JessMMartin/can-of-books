@@ -1,68 +1,93 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-const CreateBookForm = ({ showForm, setShowForm }) => {
+const CreateBookForm = () => {
+  const { id } = useParams();
   const [bookData, setBookData] = useState({
     title: '',
-    description: '',
-    status: 'available',
-    author: '', // Add the author field to the state
+    author: '',
+    genre: '',
+    // Other form fields...
   });
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setBookData({ ...bookData, [name]: value });
+  // Function to fetch book data by ID
+  const fetchBookById = async (bookId) => {
+    try {
+      const response = await fetch(`/api/books/${bookId}`); // Replace with your API endpoint for getting book by ID
+      const data = await response.json();
+      if (response.ok) {
+        return data;
+      } else {
+        // Handle error if needed
+        console.error('Failed to fetch book data:', data.message);
+        return null;
+      }
+    } catch (error) {
+      // Handle error if needed
+      console.error('Error while fetching book data:', error);
+      return null;
+    }
   };
 
+  useEffect(() => {
+    // Fetch book data when the component mounts if there is an ID in the URL
+    if (id) {
+      fetchBookById(id).then((book) => {
+        if (book) {
+          setBookData(book);
+        }
+      });
+    }
+  }, [id]);
+
+  // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    fetch('http://localhost:8090/books', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(bookData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Book created successfully:', data);
-        setShowForm(false); // Close the form after successful submission
-      })
-      .catch((error) => {
-        console.error('Error creating book:', error);
-        // Do something with the error, e.g., show an error message
-      });
+    // Submit form logic here...
   };
 
-  const handleCancel = () => {
-    setShowForm(false); // Close the form when canceled
+  // Function to handle form input changes
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setBookData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
+  // JSX for the form
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="title"
-        value={bookData.title}
-        onChange={handleInputChange}
-        placeholder="Book Title"
-      />
-      <input
-        type="text"
-        name="description"
-        value={bookData.description}
-        onChange={handleInputChange}
-        placeholder="Book Description"
-      />
-      <input
-        type="text" 
-        name="author"
-        value={bookData.author}
-        onChange={handleInputChange}
-        placeholder="Author Name"
-      />
-      <button type="submit">Create Book</button>
-      <button type="button" onClick={handleCancel}>Cancel</button>
+      <label>
+        Title:
+        <input
+          type="text"
+          id="title" // Set the id attribute to "title"
+          name="title"
+          value={bookData.title}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Author:
+        <input
+          type="text"
+          name="author"
+          value={bookData.author}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Genre:
+        <input
+          type="text"
+          name="genre"
+          value={bookData.genre}
+          onChange={handleChange}
+        />
+      </label>
+      {/* Other form fields... */}
+      <button type="submit">Submit</button>
     </form>
   );
 };

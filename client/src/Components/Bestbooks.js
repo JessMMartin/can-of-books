@@ -1,39 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const BestBooks = () => {
+  // State to store the list of books
   const [books, setBooks] = useState([]);
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axios.get('http://localhost:8090/books');
-        setBooks(response.data);
-      } catch (error) {
+  // Function to fetch book data from your backend (replace with your actual fetch code)
+  const fetchBooks = () => {
+    // Assuming your backend API endpoint to get books is http://localhost:8090/books
+    fetch('http://localhost:8090/books')
+      .then((response) => response.json())
+      .then((data) => {
+        setBooks(data); // Update the state with the fetched book data
+      })
+      .catch((error) => {
         console.error('Error fetching books:', error);
-      }
-    };
+        // Handle the error, e.g., show an error message
+      });
+  };
 
+  useEffect(() => {
+    // Fetch the books when the component mounts
     fetchBooks();
   }, []);
 
   return (
     <div>
-      <h1>Best Books</h1>
-      {books.length > 0 ? (
-        <ul>
-          {books.map((book) => (
-            <li key={book._id}>
-              <h2>{book.title}</h2>
-              <p>Author: {book.author}</p>
-              <p>{book.description}</p>
-              <p>{book.status}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>The book collection is empty.</p>
-      )}
+      <h2>Best Books</h2>
+      <ul>
+        {books.map((book) => (
+          <li key={book.id}>
+            {book.title} - <Link to={`/edit/${book._id}`}>Edit</Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
