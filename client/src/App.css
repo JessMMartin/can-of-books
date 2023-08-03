@@ -5,10 +5,11 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Quicksand', sans-serif;
+    background-color: #D6EDFF;
   }
   
   nav {
-    background-color: #84dcc6; 
+    background-color: #84DCC6; 
     padding: 10px 0;
     text-align: center;
   }
