@@ -25,7 +25,7 @@ const BestBooks = () => {
   }, []);
 
   return (
-    <div>
+    <div className='bestBooks'>
       <h2>Best Books</h2>
       <ul>
         {books.map((book) => (

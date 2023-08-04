@@ -58,7 +58,9 @@ const App = () => {
           }
         />
       </Routes>
-      {showForm && <AddBookButton />}
+      <div className="centered-button"> 
+        {showForm && <AddBookButton />}
+      </div>
     </Router>
   );
 };
